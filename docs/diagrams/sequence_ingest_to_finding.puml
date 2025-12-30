@@ -1,0 +1,20 @@
+@startuml
+title Telemetry Lab - Sequence (placeholder)
+
+actor Client
+participant "Ingest (Go)" as Go
+participant "DB" as DB
+participant "Analytics (Python)" as Py
+participant "API (Java)" as Java
+
+Client -> Go: POST /events (event payload)
+Go -> DB: insert event
+
+Py -> DB: query recent events
+Py -> Py: compute features / detect anomalies
+Py -> DB: insert finding + links
+
+Client -> Java: GET /findings
+Java -> DB: read findings
+Java --> Client: findings response
+@enduml

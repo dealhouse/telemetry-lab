@@ -1,0 +1,12 @@
+name: Task
+description: Small work item (refactor, doc, CI, etc.)
+title: "[Task] "
+labels: ["task"]
+body:
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What needs to be done?
+    validations:
+      required: true

@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# env files
+.env
+.env.*
+
+# Logs
+*.log
+
+# Node (for later UI)
+node_modules/
+dist/
+.vite/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Java/Gradle
+.gradle/
+build/
+out/
+
+# C++ build outputs (common)
+build/
+cmake-build-*/
+

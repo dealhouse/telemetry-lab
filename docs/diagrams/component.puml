@@ -1,0 +1,18 @@
+@startuml
+title Telemetry Lab - Component Diagram (placeholder)
+
+package "Telemetry Lab" {
+  [Ingest Gateway (Go)] --> [Event Store (DB)]
+  [Analytics (Python)] --> [Event Store (DB)]
+  [Analytics (Python)] --> [Findings Store (DB)]
+  [API (Java/Spring Boot)] --> [Findings Store (DB)]
+  [API (Java/Spring Boot)] --> [Event Store (DB)]
+  [Rules/Parsing Engine (C++)] ..> [Analytics (Python)]
+}
+
+note right of [Rules/Parsing Engine (C++)]
+  Integration TBD:
+  - pybind11 module OR
+  - separate service (HTTP/gRPC)
+end note
+@enduml

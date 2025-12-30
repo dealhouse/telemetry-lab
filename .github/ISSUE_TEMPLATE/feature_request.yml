@@ -1,0 +1,19 @@
+name: Feature request
+description: Propose a feature with acceptance criteria
+title: "[Feature] "
+labels: ["feature"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Bullet list of what "done" means
+    validations:
+      required: true
