@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: Telemetry Lab Ingest API
+  version: 0.1.0
+paths:
+  /healthz:
+    get:
+      responses:
+        "200": { description: OK }
+  /events:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EventIn" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EventOut" }
+  /events/batch:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: "#/components/schemas/EventIn" }
+      responses:
+        "201":
+          description: Created
+components:
+  schemas:
+    EventIn:
+      type: object
+      required: [source, ts, level, message]
+      properties:
+        source: { type: string }
+        ts: { type: string, description: RFC3339 timestamp }
+        level: { type: string, enum: [DEBUG, INFO, WARN, ERROR] }
+        message: { type: string }
+        meta: { type: object, additionalProperties: true }
+    EventOut:
+      type: object
+      properties:
+        id: { type: string }
+        receivedAt: { type: string }

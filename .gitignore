@@ -5,9 +5,18 @@
 .vscode/
 .idea/
 
+# local data
+data/
+*.db
+*.db-*
+**/*.db
+**/*.db-*
+
+
 # env files
 .env
 .env.*
+!.env.example
 
 # Logs
 *.log
