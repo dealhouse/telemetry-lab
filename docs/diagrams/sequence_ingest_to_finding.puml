@@ -1,20 +1,25 @@
 @startuml
-title Telemetry Lab - Sequence (placeholder)
+title Telemetry Lab - Sequence (Phase 1 implemented, others planned)
 
 actor Client
-participant "Ingest (Go)" as Go
-participant "DB" as DB
-participant "Analytics (Python)" as Py
-participant "API (Java)" as Java
+participant "Ingest (Go)\nPhase 1 ✅" as Go
+participant "SQLite DB\n(data/telemetry.db)" as DB
+participant "Analytics (Python)\nPlanned" as Py
+participant "API (Java)\nPlanned" as Java
 
 Client -> Go: POST /events (event payload)
 Go -> DB: insert event
 
-Py -> DB: query recent events
-Py -> Py: compute features / detect anomalies
-Py -> DB: insert finding + links
+opt Phase 3 (planned): Analytics generates findings
+  Py -> DB: query recent events
+  Py -> Py: compute features / detect anomalies
+  Py -> DB: insert finding + links
+end
 
-Client -> Java: GET /findings
-Java -> DB: read findings
-Java --> Client: findings response
+opt Phase 2 (planned): API serves findings
+  Client -> Java: GET /findings
+  Java -> DB: read findings
+  Java --> Client: findings response
+end
 @enduml
+

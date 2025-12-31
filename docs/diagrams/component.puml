@@ -1,18 +1,39 @@
 @startuml
-title Telemetry Lab - Component Diagram (placeholder)
+title Telemetry Lab - Component Diagram
 
 package "Telemetry Lab" {
-  [Ingest Gateway (Go)] --> [Event Store (DB)]
-  [Analytics (Python)] --> [Event Store (DB)]
-  [Analytics (Python)] --> [Findings Store (DB)]
-  [API (Java/Spring Boot)] --> [Findings Store (DB)]
-  [API (Java/Spring Boot)] --> [Event Store (DB)]
-  [Rules/Parsing Engine (C++)] ..> [Analytics (Python)]
+
+  actor "Client (curl / UI later)" as client
+
+  [Ingest Gateway (Go)\nPhase 1 ✅] as ingest
+  database "SQLite DB\n(data/telemetry.db)\nWAL mode" as sqlite
+
+  [Analytics (Python)\nPlanned] as py
+  [API (Java/Spring Boot)\nPlanned] as java
+  [Rules/Parsing Engine (C++)\nPlanned] as cpp
+  [UI (React/TS)\nLater] as ui
+
+  client --> ingest : POST /events\nPOST /events/batch
+  ingest --> sqlite : insert events
+
+  py --> sqlite : read events\nwrite findings
+  java --> sqlite : read findings\nread events
+  ui --> java : browse findings/events
+
+  cpp ..> py : analyze(payload)\n(pybind11 or service)
 }
 
-note right of [Rules/Parsing Engine (C++)]
-  Integration TBD:
-  - pybind11 module OR
+note right of sqlite
+  Single shared DB for early phases.
+  Tables:
+  - events (Phase 1)
+  - findings, finding_events (planned)
+end note
+
+note right of cpp
+  Integration options:
+  - pybind11 module (C++ → Python)
   - separate service (HTTP/gRPC)
 end note
 @enduml
+
